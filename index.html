@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PabloCovers</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Montserrat para emular el estilo de tus portadas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: '#0B0F19',
+                        panel: '#1A202C',
+                        primary: '#3B82F6'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Estilos personalizados para inputs tipo range (sliders) */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #3B82F6;
+            cursor: pointer;
+            margin-top: -6px;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #4A5568;
+            border-radius: 2px;
+        }
+        /* Ocultar el input de color por defecto y usar wrapper */
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            padding: 0;
+            background: none;
+        }
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+        input[type="color"]::-webkit-color-swatch {
+            border: 2px solid #4A5568;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body class="bg-dark text-gray-200 font-sans min-h-screen flex flex-col md:flex-row selection:bg-primary selection:text-white">
+
+    <!-- Panel de Controles (Izquierda) -->
+    <aside class="w-full md:w-[400px] bg-panel border-r border-gray-800 p-6 flex flex-col gap-6 overflow-y-auto max-h-screen z-10 shrink-0 shadow-2xl">
+        
+        <div>
+            <h1 class="text-2xl font-black text-white tracking-tight mb-1">PabloCovers</h1>
+            <p class="text-[10px] text-gray-400 font-semibold uppercase tracking-wider leading-relaxed">Generador de Miniaturas para Spotify, YouTube Music, Apple Music, Tidal...</p>
+        </div>
+
+        <div class="space-y-5 flex-1">
+            
+            <!-- Colores -->
+            <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700/50 space-y-4">
+                <h2 class="text-sm font-bold text-gray-300 uppercase tracking-wider">Colores</h2>
+                
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <label class="text-sm font-semibold text-gray-400">Color de Fondo</label>
+                        <input type="color" id="bgColor" value="#4ADE80">
+                    </div>
+                    <!-- Paleta predeterminada -->
+                    <div class="flex gap-2 flex-wrap bg-gray-900/50 p-2.5 rounded-lg border border-gray-700/50 justify-between">
+                        <button class="w-6 h-6 rounded-full shadow-sm border border-gray-600/50 hover:scale-110 transition-transform preset-color focus:outline-none focus:ring-2 focus:ring-white" data-color="#EF4444" style="background-color: #EF4444;" title="Rojo"></button>
+                        <button class="w-6 h-6 rounded-full shadow-sm border border-gray-600/50 hover:scale-110 transition-transform preset-color focus:outline-none focus:ring-2 focus:ring-white" data-color="#FB923C" style="background-color: #FB923C;" title="Naranja"></button>
+                        <button class="w-6 h-6 rounded-full shadow-sm border border-gray-600/50 hover:scale-110 transition-transform preset-color focus:outline-none focus:ring-2 focus:ring-white" data-color="#FACC15" style="background-color: #FACC15;" title="Amarillo"></button>
+                        <button class="w-6 h-6 rounded-full shadow-sm border border-gray-600/50 hover:scale-110 transition-transform preset-color focus:outline-none focus:ring-2 focus:ring-white" data-color="#4ADE80" style="background-color: #4ADE80;" title="Verde"></button>
+                        <button class="w-6 h-6 rounded-full shadow-sm border border-gray-600/50 hover:scale-110 transition-transform preset-color focus:outline-none focus:ring-2 focus:ring-white" data-color="#06B6D4" style="background-color: #06B6D4;" title="Cian"></button>
+                        <button class="w-6 h-6 rounded-full shadow-sm border border-gray-600/50 hover:scale-110 transition-transform preset-color focus:outline-none focus:ring-2 focus:ring-white" data-color="#3B82F6" style="background-color: #3B82F6;" title="Azul"></button>
+                        <button class="w-6 h-6 rounded-full shadow-sm border border-gray-600/50 hover:scale-110 transition-transform preset-color focus:outline-none focus:ring-2 focus:ring-white" data-color="#D946EF" style="background-color: #D946EF;" title="Magenta"></button>
+                        <button class="w-6 h-6 rounded-full shadow-sm border border-gray-600/50 hover:scale-110 transition-transform preset-color focus:outline-none focus:ring-2 focus:ring-white" data-color="#111827" style="background-color: #111827;" title="Oscuro"></button>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <label class="text-sm font-semibold text-gray-400">Color de Acento (Secundario)</label>
+                    <input type="color" id="accentColor" value="#A855F7">
+                </div>
+            </div>
+
+            <!-- Textos -->
+            <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700/50 space-y-4">
+                <h2 class="text-sm font-bold text-gray-300 uppercase tracking-wider">Textos</h2>
+                
+                <div class="space-y-1.5">
+                    <label class="text-sm font-semibold text-gray-400">Subtítulo (Arriba)</label>
+                    <input type="text" id="subtitleText" value="Hasta perder el conocimiento" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors">
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="text-sm font-semibold text-gray-400">Título Principal (Centro)</label>
+                    <textarea id="titleText" rows="2" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors resize-none">Tajadote Full</textarea>
+                    <p class="text-[11px] text-gray-500">Usa Enter para saltos de línea.</p>
+                </div>
+            </div>
+
+            <!-- Imagen -->
+            <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700/50 space-y-4">
+                <h2 class="text-sm font-bold text-gray-300 uppercase tracking-wider">Imagen Central</h2>
+                
+                <div>
+                    <label class="cursor-pointer flex items-center justify-center w-full border-2 border-dashed border-gray-600 rounded-lg py-4 hover:border-primary hover:bg-gray-700/30 transition-all">
+                        <span class="text-sm font-semibold text-gray-400" id="fileName">Subir imagen PNG/JPG</span>
+                        <input type="file" id="imageUpload" accept="image/*" class="hidden">
+                    </label>
+                </div>
+
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <label class="text-sm font-semibold text-gray-400">Tamaño</label>
+                        <span id="scaleVal" class="text-xs font-bold text-gray-500">100%</span>
+                    </div>
+                    <input type="range" id="imageScale" min="0.1" max="3" step="0.05" value="1">
+                </div>
+
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <label class="text-sm font-semibold text-gray-400">Posición Vertical</label>
+                    </div>
+                    <input type="range" id="imageY" min="-500" max="500" step="10" value="100">
+                </div>
+            </div>
+            
+        </div>
+
+        <button id="downloadBtn" class="w-full bg-primary hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Descargar Alta Resolución
+        </button>
+    </aside>
+
+    <!-- Área de Vista Previa (Derecha) -->
+    <main class="flex-1 flex flex-col items-center justify-center p-6 md:p-12 relative overflow-hidden bg-dark">
+        <!-- Fondo decorativo tipo grid para el visor -->
+        <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 32px 32px;"></div>
+        
+        <div class="relative group">
+            <!-- Etiqueta superior flotante -->
+            <div class="absolute -top-10 left-1/2 -translate-x-1/2 text-xs font-bold text-gray-500 tracking-widest uppercase mb-4 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                Live Preview (1:1)
+            </div>
+            
+            <!-- Contenedor del Canvas para mantener la proporción -->
+            <div class="w-full max-w-[500px] aspect-square shadow-2xl rounded-sm overflow-hidden ring-1 ring-gray-800 transition-transform duration-300 group-hover:scale-[1.02]">
+                <!-- El canvas original es de 1000x1000, pero se escala por CSS -->
+                <canvas id="thumbnailCanvas" width="1000" height="1000" class="w-full h-full object-contain bg-white"></canvas>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Referencias al DOM
+        const canvas = document.getElementById('thumbnailCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        const inputs = {
+            bg: document.getElementById('bgColor'),
+            accent: document.getElementById('accentColor'),
+            subtitle: document.getElementById('subtitleText'),
+            title: document.getElementById('titleText'),
+            scale: document.getElementById('imageScale'),
+            y: document.getElementById('imageY'),
+            upload: document.getElementById('imageUpload')
+        };
+        
+        const ui = {
+            fileName: document.getElementById('fileName'),
+            scaleVal: document.getElementById('scaleVal'),
+            downloadBtn: document.getElementById('downloadBtn')
+        };
+
+        // Estado interno
+        let centralImage = null;
+
+        // Función principal de renderizado
+        function renderCanvas() {
+            // 1. Limpiar canvas
+            ctx.clearRect(0, 0, 1000, 1000);
+
+            // 2. Fondo
+            ctx.fillStyle = inputs.bg.value;
+            ctx.fillRect(0, 0, 1000, 1000);
+
+            // 3. Imagen central (Detrás del título)
+            if (centralImage) {
+                const scale = parseFloat(inputs.scale.value);
+                const offsetY = parseInt(inputs.y.value);
+                
+                // Calculamos un tamaño base para que encaje bien de inicio (máx 800px)
+                const baseScale = Math.min(800 / centralImage.width, 800 / centralImage.height);
+                const finalWidth = centralImage.width * baseScale * scale;
+                const finalHeight = centralImage.height * baseScale * scale;
+                
+                // Centrado en X, con offset en Y
+                const x = 500 - (finalWidth / 2);
+                const y = 500 - (finalHeight / 2) + offsetY;
+
+                ctx.drawImage(centralImage, x, y, finalWidth, finalHeight);
+            }
+
+            // 4. Subtítulo (Arriba, ~12% desde el borde)
+            ctx.font = "600 28px 'Montserrat'";
+            ctx.fillStyle = inputs.accent.value;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(inputs.subtitle.value, 500, 120);
+
+            // 5. Título Principal (Centro)
+            ctx.font = "900 84px 'Montserrat'";
+            ctx.fillStyle = "#FFFFFF";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            
+            const titleLines = inputs.title.value.split('\n');
+            const lineHeight = 95;
+            // Calcular el punto Y de inicio para que el bloque de texto quede perfectamente centrado
+            const totalTextHeight = (titleLines.length - 1) * lineHeight;
+            const startY = 500 - (totalTextHeight / 2);
+
+            titleLines.forEach((line, index) => {
+                ctx.fillText(line, 500, startY + (index * lineHeight));
+            });
+
+            // 6. Píldora inferior
+            const pillWidth = 70;
+            const pillHeight = 16;
+            const pillX = 500 - (pillWidth / 2);
+            const pillY = 880;
+            const radius = pillHeight / 2;
+
+            ctx.fillStyle = inputs.accent.value;
+            ctx.beginPath();
+            ctx.roundRect(pillX, pillY, pillWidth, pillHeight, radius);
+            ctx.fill();
+        }
+
+        // Manejo de carga de imagen
+        inputs.upload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                ui.fileName.textContent = file.name.substring(0, 20) + (file.name.length > 20 ? '...' : '');
+                
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        centralImage = img;
+                        renderCanvas();
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Listeners para todos los inputs
+        const updateEvents = ['input', 'change'];
+        
+        ['bg', 'accent', 'subtitle', 'title', 'y'].forEach(key => {
+            updateEvents.forEach(evt => {
+                inputs[key].addEventListener(evt, renderCanvas);
+            });
+        });
+
+        // Eventos para los colores predeterminados
+        document.querySelectorAll('.preset-color').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const color = e.target.getAttribute('data-color');
+                inputs.bg.value = color; // Actualizar el input hex
+                renderCanvas();          // Redibujar el canvas
+            });
+        });
+
+        // Actualizar porcentaje del slider de escala visualmente
+        inputs.scale.addEventListener('input', (e) => {
+            ui.scaleVal.textContent = Math.round(e.target.value * 100) + '%';
+            renderCanvas();
+        });
+
+        // Descargar la miniatura
+        ui.downloadBtn.addEventListener('click', () => {
+            // Convertir canvas a DataURL PNG
+            const dataUrl = canvas.toDataURL("image/png");
+            
+            // Crear elemento <a> temporal
+            const link = document.createElement('a');
+            
+            // Generar nombre de archivo basado en el título (limpio)
+            const cleanTitle = inputs.title.value.replace(/[^a-z0-9]/gi, '_').toLowerCase() || 'miniatura';
+            link.download = `cover_${cleanTitle}.png`;
+            
+            link.href = dataUrl;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
+        // Inicialización: Asegurar que las fuentes están cargadas antes del primer render
+        document.fonts.ready.then(() => {
+            renderCanvas();
+        });
+
+    </script>
+</body>
+</html>
